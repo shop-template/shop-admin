@@ -1,13 +1,27 @@
+const colors = require('tailwindcss/colors');
+
 module.exports = {
   content: [
     './src/pages/**/*.tsx',
     './src/components/**.tsx',
+    './src/components/**/*.tsx',
     './src/layouts/**.tsx',
+    './src/layouts/**/*.tsx',
   ],
   theme: {
+    colors: {
+      transparent: 'transparent',
+      current: 'currentColor',
+      primary: '#1890ff',
+      gray: colors.trueGray,
+      red: colors.red,
+      blue: colors.sky,
+      yellow: colors.amber,
+    },
     spacing: {
       8: '8px',
       12: '12px',
+      16: '16px',
       24: '24px',
       48: '48px',
     },

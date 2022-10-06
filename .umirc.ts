@@ -41,11 +41,21 @@ export default defineConfig({
     },
 
     {
-      name: '登陆',
-      path: '/login',
-      component: './Login',
+      path: '/layout',
+      component: '@/layouts/Login/index',
       menuRender: false,
+      menuHeaderRender: false,
+      headerRender: false,
+      footerRender: false,
       hideInMenu: true,
+      routes: [
+        { path: '/layout', redirect: 'layout/login' },
+        {
+          name: '登陆',
+          path: '/layout/login',
+          component: './Login',
+        },
+      ],
     },
 
     {

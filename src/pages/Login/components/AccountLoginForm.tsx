@@ -1,0 +1,62 @@
+import { Button, Form, Input, Spin } from 'antd';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { useModel, history } from 'umi';
+import { useRequest } from 'ahooks';
+import formPattern from '@/config/formPattern';
+import { loginRequest } from '@/services/loginController';
+import config from '@/config/config';
+import Cookies from 'js-cookie';
+
+const LoginForm: React.FC = () => {
+  const { setInitialState } = useModel('@@initialState');
+  const { loading: loginLoading, run } = useRequest(loginRequest, {
+    manual: true,
+    onSuccess: (result) => {
+      if (result.success) {
+        setInitialState(result.data);
+        Cookies.set(config.token, result.data?.token as string, { expires: 7 });
+        history.push('/home');
+      }
+    },
+  });
+  const onFinish = async (values: any) => {
+    run(values);
+  };
+
+  return (
+    <Spin spinning={loginLoading}>
+      <Form name="login" size="large" onFinish={onFinish}>
+        <Form.Item
+          name="username"
+          rules={[
+            { required: true, message: '请输入用户名！' },
+            {
+              pattern: formPattern.namePattern,
+              message: '用户名包含大小写字母、数字！',
+            },
+          ]}
+        >
+          <Input prefix={<UserOutlined />} placeholder="请输入用户名" />
+        </Form.Item>
+        <Form.Item
+          name="password"
+          rules={[{ required: true, message: '请输入密码！' }]}
+        >
+          <Input
+            prefix={<LockOutlined />}
+            type="password"
+            placeholder="请输入密码"
+          />
+        </Form.Item>
+
+        <Form.Item className="mb-16">
+          <Button type="primary" htmlType="submit" block loading={loginLoading}>
+            登录
+          </Button>
+        </Form.Item>
+      </Form>
+    </Spin>
+  );
+};
+
+export default LoginForm;
