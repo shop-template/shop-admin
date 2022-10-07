@@ -90,6 +90,7 @@ export const layout = (layoutData: any) => {
     menu: {
       locale: false,
     },
+    fixSiderbar: true,
     logout: (initialState: API.ResultUserInfo) => {
       console.log(initialState);
       Cookies.remove(config.token);
