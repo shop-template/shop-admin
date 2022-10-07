@@ -68,8 +68,8 @@ export default defineConfig({
       name: '用户管理',
       path: '/user',
       component: './User',
-      // 此处 access 最好使用函数返回，防止更新 initialState 时，菜单未显示
-      access: () => 'isAdmin',
+      // TODO: 登录的时候未起作用，待研究
+      access: 'isAdmin',
     },
 
     {

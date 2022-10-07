@@ -85,30 +85,41 @@ export async function getInitialState(): Promise<API.ResultUserInfo> {
 export const layout = (layoutData: any) => {
   console.log(layoutData);
   const initialState: API.ResultUserInfo = layoutData.initialState;
+  const setInitialState = layoutData.setInitialState;
   return {
     logo: 'https://img.alicdn.com/tfs/TB1YHEpwUT1gK0jSZFhXXaAtVXa-28-27.svg',
     menu: {
       locale: false,
     },
+    layout: 'mix',
     fixSiderbar: true,
     logout: (initialState: API.ResultUserInfo) => {
       console.log(initialState);
       Cookies.remove(config.token);
+      setInitialState({
+        id: 0,
+        name: '',
+        label: '',
+        access: '',
+        token: '',
+        account: '',
+        headerImg: '',
+      });
       history.push('/layout/login');
     },
     avatarProps: {
-      src: initialState.headerImg,
-      title: initialState.label,
+      src: initialState?.headerImg,
+      title: initialState?.label,
     },
-    rightRender: () => {
-      return (
-        <>
-          {/* <div>
-            <Avatar size={30} src={initialState.headerImg} alt="用户头像" />
-            <span>{initialState.label}</span>
-          </div> */}
-        </>
-      );
-    },
+    // rightRender: () => {
+    //   return (
+    //     <>
+    //       {/* <div>
+    //         <Avatar size={30} src={initialState.headerImg} alt="用户头像" />
+    //         <span>{initialState.label}</span>
+    //       </div> */}
+    //     </>
+    //   );
+    // },
   };
 };
