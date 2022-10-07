@@ -6,3 +6,17 @@ export async function loginRequest(body: API.AccountLoginForm) {
     data: body,
   });
 }
+
+export async function sendSmsLoginRequest(body: API.SendSmsLoginBody) {
+  return request<API.SendSmsLoginResultInfo>('/api/sendSmsLogin', {
+    method: 'POST',
+    data: body,
+  });
+}
+
+export async function phoneLoginRequest(body: API.PhoneLoginBody) {
+  return request<API.PhoneLoginResultInfo>('/api/phoneLogin', {
+    method: 'POST',
+    data: body,
+  });
+}

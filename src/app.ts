@@ -16,7 +16,7 @@ export const request: RequestConfig = {
   requestInterceptors: [
     [
       (url, options) => {
-        const noTokenApis = ['/api/login'];
+        const noTokenApis = ['/api/login', '/api/sendSmsLogin'];
         if (!noTokenApis.includes(url)) {
           const token = Cookies.get(config.token);
           if (!token) {

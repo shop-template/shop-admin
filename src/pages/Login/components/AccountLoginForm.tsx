@@ -1,4 +1,4 @@
-import { Button, Form, Input, Spin } from 'antd';
+import { Button, Form, Input, Spin, message } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { useModel, history } from 'umi';
 import { useRequest } from 'ahooks';
@@ -7,12 +7,16 @@ import { loginRequest } from '@/services/loginController';
 import config from '@/config/config';
 import Cookies from 'js-cookie';
 
+const { Password } = Input;
+
 const LoginForm: React.FC = () => {
   const { setInitialState } = useModel('@@initialState');
+  // 密码登录
   const { loading: loginLoading, run } = useRequest(loginRequest, {
     manual: true,
     onSuccess: (result) => {
       if (result.success) {
+        message.success('登录成功');
         setInitialState(result.data);
         Cookies.set(config.token, result.data?.token as string, { expires: 7 });
         history.push('/home');
@@ -36,14 +40,19 @@ const LoginForm: React.FC = () => {
             },
           ]}
         >
-          <Input prefix={<UserOutlined />} placeholder="请输入用户名" />
+          <Input
+            prefix={<UserOutlined />}
+            allowClear
+            placeholder="请输入用户名"
+          />
         </Form.Item>
         <Form.Item
           name="password"
           rules={[{ required: true, message: '请输入密码！' }]}
         >
-          <Input
+          <Password
             prefix={<LockOutlined />}
+            allowClear
             type="password"
             placeholder="请输入密码"
           />

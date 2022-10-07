@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* 修复图标文字上下对不齐 */
+img,
+svg {
+  vertical-align: baseline;
+}

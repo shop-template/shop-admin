@@ -19,6 +19,9 @@ const userList = [
   },
 ];
 
+// const phoneList: string[] = []
+const smsList: number[] = [];
+
 export default {
   'post /api/login': (req: any, res: any) => {
     const { username } = req.body;
@@ -50,6 +53,55 @@ export default {
         data: curUser,
         errorCode: 0,
       });
+    } else {
+      res.json({
+        success: false,
+        data: {},
+        errorCode: 1,
+        errorMessage: '用户不存在',
+      });
+    }
+  },
+  'post /api/sendSmsLogin': (req: any, res: any) => {
+    const curUser = userList.find((x) => x.account === req.body.phone);
+    if (curUser) {
+      const code = Math.round(Math.random() * 1000000);
+      smsList.push(code);
+      res.json({
+        success: true,
+        data: {
+          code,
+        },
+        errorCode: 0,
+        errorMessage: '',
+      });
+    } else {
+      res.json({
+        success: false,
+        data: {},
+        errorCode: 1,
+        errorMessage: '用户不存在',
+      });
+    }
+  },
+  'post /api/phoneLogin': (req: any, res: any) => {
+    const curUser = userList.find((x) => x.account === req.body.phone);
+    console.log(req.body.sms);
+    if (curUser) {
+      if (smsList.includes(req.body.sms * 1)) {
+        res.json({
+          success: true,
+          data: curUser,
+          errorCode: 0,
+        });
+      } else {
+        res.json({
+          success: false,
+          data: {},
+          errorCode: 1,
+          errorMessage: '验证码有误',
+        });
+      }
     } else {
       res.json({
         success: false,
