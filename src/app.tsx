@@ -3,7 +3,7 @@ import type { RequestConfig } from 'umi';
 import { history } from 'umi';
 import Cookies from 'js-cookie';
 import { tokenToUserRequest } from '@/services/userController';
-import { message } from 'antd';
+import { message, Avatar } from 'antd';
 import config from '@/config/config';
 
 export const request: RequestConfig = {
@@ -16,13 +16,17 @@ export const request: RequestConfig = {
   requestInterceptors: [
     [
       (url, options) => {
-        const noTokenApis = ['/api/login', '/api/sendSmsLogin'];
+        const noTokenApis = [
+          '/api/login',
+          '/api/sendSmsLogin',
+          '/api/phoneLogin',
+        ];
         if (!noTokenApis.includes(url)) {
           const token = Cookies.get(config.token);
           if (!token) {
             history.push({
               pathname: '/layout/login',
-              search: `?from=${window.location.pathname}`,
+              // search: `?from=${window.location.pathname}`,
             });
             throw new Error('token不存在');
           }
@@ -83,6 +87,27 @@ export const layout = () => {
     logo: 'https://img.alicdn.com/tfs/TB1YHEpwUT1gK0jSZFhXXaAtVXa-28-27.svg',
     menu: {
       locale: false,
+    },
+    logout: (initialState: API.ResultUserInfo) => {
+      console.log(initialState);
+      Cookies.remove(config.token);
+      history.push('/layout/login');
+    },
+    // avatarProps: (initialState: API.ResultUserInfo) => {
+    //   return {
+    //     src: initialState.headerImg,
+    //     title: initialState.label,
+    //   }
+    // },
+    rightRender: (initialState: API.ResultUserInfo) => {
+      return (
+        <>
+          <div>
+            <Avatar size={30} src={initialState.headerImg} alt="用户头像" />
+            <span>{initialState.label}</span>
+          </div>
+        </>
+      );
     },
   };
 };

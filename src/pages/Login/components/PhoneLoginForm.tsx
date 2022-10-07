@@ -35,7 +35,7 @@ const LoginForm: React.FC = () => {
       onSuccess: (result) => {
         if (result.success) {
           setShowCountDown(true);
-          setTargetDate(Date.now() + 5 * 1000);
+          setTargetDate(Date.now() + 60 * 1000);
           message.success(`演示需要，验证码:${result.data?.code}`);
         }
       },
