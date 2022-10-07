@@ -3,7 +3,7 @@ import type { RequestConfig } from 'umi';
 import { history } from 'umi';
 import Cookies from 'js-cookie';
 import { tokenToUserRequest } from '@/services/userController';
-import { message, Avatar } from 'antd';
+import { message } from 'antd';
 import config from '@/config/config';
 
 export const request: RequestConfig = {
@@ -82,7 +82,9 @@ export async function getInitialState(): Promise<API.ResultUserInfo> {
   }
 }
 
-export const layout = () => {
+export const layout = (layoutData: any) => {
+  console.log(layoutData);
+  const initialState: API.ResultUserInfo = layoutData.initialState;
   return {
     logo: 'https://img.alicdn.com/tfs/TB1YHEpwUT1gK0jSZFhXXaAtVXa-28-27.svg',
     menu: {
@@ -93,19 +95,17 @@ export const layout = () => {
       Cookies.remove(config.token);
       history.push('/layout/login');
     },
-    // avatarProps: (initialState: API.ResultUserInfo) => {
-    //   return {
-    //     src: initialState.headerImg,
-    //     title: initialState.label,
-    //   }
-    // },
-    rightRender: (initialState: API.ResultUserInfo) => {
+    avatarProps: {
+      src: initialState.headerImg,
+      title: initialState.label,
+    },
+    rightRender: () => {
       return (
         <>
-          <div>
+          {/* <div>
             <Avatar size={30} src={initialState.headerImg} alt="用户头像" />
             <span>{initialState.label}</span>
-          </div>
+          </div> */}
         </>
       );
     },
