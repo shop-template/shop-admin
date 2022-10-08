@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Tabs } from 'antd';
 import AccountLoginForm from './components/AccountLoginForm';
 import PhoneLoginForm from './components/PhoneLoginForm';
+import classnames from 'classnames';
 
 type LoginType = 'account' | 'phone';
 
@@ -22,9 +23,12 @@ const LoginPage: React.FC = () => {
         size="large"
         onChange={(key) => setLoginType(key as LoginType)}
       />
-      {/* 密码登录 */}
-      {loginType === 'account' && <AccountLoginForm></AccountLoginForm>}
-      {loginType === 'phone' && <PhoneLoginForm></PhoneLoginForm>}
+      <div className={classnames(loginType === 'account' ? 'block' : 'hidden')}>
+        <AccountLoginForm></AccountLoginForm>
+      </div>
+      <div className={classnames(loginType === 'phone' ? 'block' : 'hidden')}>
+        <PhoneLoginForm></PhoneLoginForm>
+      </div>
     </>
   );
 };

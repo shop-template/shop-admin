@@ -1,1 +1,6 @@
-/* stylelint-disable no-empty-source */
+// 修复在md及以下情况下，菜单弹出层存在横向滚动条的问题（https://ant.design/components/grid-cn/#Col）
+@media screen and (max-width: 767px) {
+  .ant-pro-sider-collapsed-button {
+    right: 0;
+  }
+}

@@ -10,13 +10,13 @@ const { Title } = Typography;
 
 const LoginPage: React.FC = () => {
   return (
-    <div className={classnames(styles['login-page'], 'box-border')}>
-      <div
-        className={classnames(
-          styles['ligin-page-form-box'],
-          'p-24 border border-gray-200 rounded',
-        )}
-      >
+    <div
+      className={classnames(
+        styles['login-page'],
+        'box-border flex justify-center items-start',
+      )}
+    >
+      <div className={classnames(styles['ligin-page-form-box'])}>
         <Title className="text-center truncate" style={{ marginBottom: 15 }}>
           {config.name}
         </Title>

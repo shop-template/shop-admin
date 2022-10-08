@@ -65,7 +65,6 @@ export default defineConfig({
       name: '用户管理',
       path: '/user',
       component: './User',
-      // TODO: 登录的时候未起作用，待研究
       access: 'isAdmin',
     },
 

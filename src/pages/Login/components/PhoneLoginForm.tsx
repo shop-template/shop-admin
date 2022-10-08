@@ -111,7 +111,9 @@ const LoginForm: React.FC = () => {
                 loading={sendSmsLoading}
                 disabled={showCountDown}
               >
-                {showCountDown ? `${formattedRes.seconds}S` : '发送验证码'}
+                {showCountDown
+                  ? `${formattedRes.seconds}秒后重新获取`
+                  : '发送验证码'}
               </Button>
             }
             onSearch={onSmsSearch}
