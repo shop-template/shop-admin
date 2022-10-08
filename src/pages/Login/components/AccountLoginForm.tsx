@@ -4,22 +4,32 @@ import { useModel, history } from 'umi';
 import { useRequest } from 'ahooks';
 import formPattern from '@/config/formPattern';
 import { loginRequest } from '@/services/loginController';
-import config from '@/config/config';
+import config from '@/config';
 import Cookies from 'js-cookie';
 
 const { Password } = Input;
 
 const LoginForm: React.FC = () => {
-  const { setInitialState } = useModel('@@initialState');
+  const { initialState, setInitialState } = useModel('@@initialState');
+  const fetchUserInfo = async () => {
+    const userInfo = await initialState?.fetchUserInfo?.();
+    if (userInfo) {
+      await setInitialState((s) => ({
+        ...s,
+        currentUser: userInfo,
+      }));
+    }
+  };
+
   // 密码登录
   const { loading: loginLoading, run } = useRequest(loginRequest, {
     manual: true,
-    onSuccess: (result) => {
+    onSuccess: async (result) => {
       if (result.success) {
         message.success('登录成功');
-        setInitialState(result.data);
         Cookies.set(config.token, result.data?.token as string, { expires: 7 });
-        history.push('/home');
+        await fetchUserInfo();
+        history.push('/');
       }
     },
   });

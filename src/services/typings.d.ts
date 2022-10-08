@@ -12,13 +12,13 @@ declare namespace API {
   }
 
   interface ResultUserInfo {
-    id: number;
-    name: string;
-    label: string;
-    access: string;
-    token: string;
-    account: string;
-    headerImg: string;
+    id?: number;
+    name?: string;
+    label?: string;
+    access?: string;
+    token?: string;
+    account?: string;
+    avatar?: string;
   }
 
   interface ResultLoginInfo {

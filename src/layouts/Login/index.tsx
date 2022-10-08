@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import { Outlet } from 'umi';
 import { Typography } from 'antd';
 import FormLinks from '@/components/Login/FormLinks';
-import config from '@/config/config';
+import config from '@/config';
 
 import styles from './index.less';
 
@@ -10,7 +10,7 @@ const { Title } = Typography;
 
 const LoginPage: React.FC = () => {
   return (
-    <div className={styles['login-page']}>
+    <div className={classnames(styles['login-page'], 'box-border')}>
       <div
         className={classnames(
           styles['ligin-page-form-box'],

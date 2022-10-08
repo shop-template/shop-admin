@@ -8,7 +8,7 @@ import {
   phoneLoginRequest,
   sendSmsLoginRequest,
 } from '@/services/loginController';
-import config from '@/config/config';
+import config from '@/config';
 import Cookies from 'js-cookie';
 
 const { Search } = Input;
@@ -25,7 +25,16 @@ const LoginForm: React.FC = () => {
       setShowCountDown(false);
     },
   });
-  const { setInitialState } = useModel('@@initialState');
+  const { initialState, setInitialState } = useModel('@@initialState');
+  const fetchUserInfo = async () => {
+    const userInfo = await initialState?.fetchUserInfo?.();
+    if (userInfo) {
+      await setInitialState((s) => ({
+        ...s,
+        currentUser: userInfo,
+      }));
+    }
+  };
 
   // 发送验证码
   const { loading: sendSmsLoading, run: sendSmsRun } = useRequest(
@@ -55,12 +64,12 @@ const LoginForm: React.FC = () => {
   // 短信登录
   const { loading: loginLoading, run } = useRequest(phoneLoginRequest, {
     manual: true,
-    onSuccess: (result) => {
+    onSuccess: async (result) => {
       if (result.success) {
         message.success('登录成功');
-        setInitialState(result.data);
         Cookies.set(config.token, result.data?.token as string, { expires: 7 });
-        history.push('/home');
+        await fetchUserInfo();
+        history.push('/');
       }
     },
   });

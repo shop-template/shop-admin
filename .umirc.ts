@@ -1,5 +1,5 @@
 import { defineConfig } from '@umijs/max';
-import config from './src/config/config';
+import config from './src/config';
 
 export default defineConfig({
   antd: {
@@ -43,10 +43,7 @@ export default defineConfig({
     {
       path: '/layout',
       component: '@/layouts/Login/index',
-      menuRender: false,
-      menuHeaderRender: false,
-      headerRender: false,
-      footerRender: false,
+      layout: false,
       hideInMenu: true,
       routes: [
         { path: '/layout', redirect: 'layout/login' },

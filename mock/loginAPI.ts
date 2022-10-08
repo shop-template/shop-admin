@@ -6,7 +6,7 @@ const userList = [
     access: 'admin',
     token: 'tokenadmin',
     account: '11122223333',
-    headerImg: 'https://img.fxss.work/header-1583418772000-23-production',
+    avatar: 'https://img.fxss.work/header-1583418772000-23-production',
   },
   {
     id: 2,
@@ -15,7 +15,7 @@ const userList = [
     access: 'user',
     token: 'tokenzhangsan',
     account: '11144445555',
-    headerImg: 'https://img.fxss.work/header-1583418772000-23-production',
+    avatar: 'https://img.fxss.work/header-1583418772000-23-production',
   },
 ];
 
