@@ -10,16 +10,7 @@ import Cookies from 'js-cookie';
 const { Password } = Input;
 
 const LoginForm: React.FC = () => {
-  const { initialState, setInitialState } = useModel('@@initialState');
-  const fetchUserInfo = async () => {
-    const userInfo = await initialState?.fetchUserInfo?.();
-    if (userInfo) {
-      await setInitialState((s) => ({
-        ...s,
-        currentUser: userInfo,
-      }));
-    }
-  };
+  const { setInitialState } = useModel('@@initialState');
 
   // 密码登录
   const { loading: loginLoading, run } = useRequest(loginRequest, {
@@ -28,11 +19,11 @@ const LoginForm: React.FC = () => {
       if (result.success) {
         message.success('登录成功');
         Cookies.set(config.token, result.data?.token as string, { expires: 7 });
-        await fetchUserInfo();
+        setInitialState(result.data);
         // 延迟跳转，否则路由权限有误
         setTimeout(() => {
           history.push('/');
-        }, 300);
+        }, 100);
       }
     },
   });

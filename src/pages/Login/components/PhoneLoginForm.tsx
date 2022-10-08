@@ -25,16 +25,7 @@ const LoginForm: React.FC = () => {
       setShowCountDown(false);
     },
   });
-  const { initialState, setInitialState } = useModel('@@initialState');
-  const fetchUserInfo = async () => {
-    const userInfo = await initialState?.fetchUserInfo?.();
-    if (userInfo) {
-      await setInitialState((s) => ({
-        ...s,
-        currentUser: userInfo,
-      }));
-    }
-  };
+  const { setInitialState } = useModel('@@initialState');
 
   // 发送验证码
   const { loading: sendSmsLoading, run: sendSmsRun } = useRequest(
@@ -68,10 +59,10 @@ const LoginForm: React.FC = () => {
       if (result.success) {
         message.success('登录成功');
         Cookies.set(config.token, result.data?.token as string, { expires: 7 });
-        await fetchUserInfo();
+        setInitialState(result.data);
         setTimeout(() => {
           history.push('/');
-        }, 300);
+        }, 100);
       }
     },
   });

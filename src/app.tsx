@@ -68,38 +68,29 @@ export const request: RequestConfig = {
 const whiteList = ['/layout/login'];
 // 全局初始化数据配置，用于 Layout 用户信息和权限初始化
 // 更多信息见文档：https://next.umijs.org/docs/api/runtime-config#getinitialstate
-export async function getInitialState(): Promise<{
-  currentUser?: API.ResultUserInfo;
-  fetchUserInfo?: () => Promise<API.ResultUserInfo | undefined>;
-}> {
-  const fetchUserInfo = async () => {
+export async function getInitialState(): Promise<API.ResultUserInfo> {
+  if (!whiteList.includes(window.location.pathname)) {
     try {
       const user = await tokenToUserRequest();
       return user.data as API.ResultUserInfo;
     } catch (error) {
       history.push(loginPath);
     }
-    return undefined;
-  };
-
-  if (!whiteList.includes(window.location.pathname)) {
-    const currentUser = await fetchUserInfo();
-    return {
-      fetchUserInfo,
-      currentUser,
-    };
   }
   return {
-    fetchUserInfo,
+    id: 0,
+    name: '',
+    label: '',
+    access: '',
+    token: '',
+    account: '',
+    avatar: '',
   };
 }
 
 export const layout = (layoutData: any) => {
   console.log(layoutData);
-  const initialState: {
-    currentUser?: API.ResultUserInfo;
-    fetchUserInfo?: () => Promise<API.ResultUserInfo | undefined>;
-  } = layoutData.initialState;
+  const initialState: API.ResultUserInfo = layoutData.initialState;
   const setInitialState = layoutData.setInitialState;
   return {
     logo: 'https://img.alicdn.com/tfs/TB1YHEpwUT1gK0jSZFhXXaAtVXa-28-27.svg',
@@ -109,42 +100,31 @@ export const layout = (layoutData: any) => {
     layout: 'mix',
     contentWidth: 'Fluid',
     fixSiderbar: true,
-    logout: (initialState: {
-      currentUser?: API.ResultUserInfo;
-      fetchUserInfo?: () => Promise<API.ResultUserInfo | undefined>;
-    }) => {
+    logout: (initialState: API.ResultUserInfo) => {
       console.log(initialState);
       Cookies.remove(config.token);
-      setInitialState(
-        (s: {
-          currentUser?: API.ResultUserInfo;
-          fetchUserInfo?: () => Promise<API.ResultUserInfo | undefined>;
-        }) => ({
-          ...s,
-          currentUser: {
-            id: 0,
-            name: '',
-            label: '',
-            access: '',
-            token: '',
-            account: '',
-            avatar: '',
-          },
-        }),
-      );
+      setInitialState({
+        id: 0,
+        name: '',
+        label: '',
+        access: '',
+        token: '',
+        account: '',
+        avatar: '',
+      });
       message.success('退出成功');
       history.push('/layout/login');
     },
     avatarProps: {
-      src: initialState.currentUser?.avatar,
-      title: initialState.currentUser?.label,
+      src: initialState?.avatar,
+      title: initialState?.label,
     },
     // rightRender: () => {
     //   return (
     //     <>
     //       {/* <div>
-    //         <Avatar size={30} src={initialState.currentUser?.avatar} alt="用户头像" />
-    //         <span>{initialState.currentUser?.label}</span>
+    //         <Avatar size={30} src={initialState?.avatar} alt="用户头像" />
+    //         <span>{initialState?.label}</span>
     //       </div> */}
     //     </>
     //   );
