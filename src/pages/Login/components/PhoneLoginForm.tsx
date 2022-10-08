@@ -69,7 +69,9 @@ const LoginForm: React.FC = () => {
         message.success('登录成功');
         Cookies.set(config.token, result.data?.token as string, { expires: 7 });
         await fetchUserInfo();
-        history.push('/');
+        setTimeout(() => {
+          history.push('/');
+        }, 300);
       }
     },
   });

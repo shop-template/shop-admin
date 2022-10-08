@@ -29,7 +29,10 @@ const LoginForm: React.FC = () => {
         message.success('登录成功');
         Cookies.set(config.token, result.data?.token as string, { expires: 7 });
         await fetchUserInfo();
-        history.push('/');
+        // 延迟跳转，否则路由权限有误
+        setTimeout(() => {
+          history.push('/');
+        }, 300);
       }
     },
   });
