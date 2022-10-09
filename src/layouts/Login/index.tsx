@@ -17,9 +17,7 @@ const LoginPage: React.FC = () => {
       )}
     >
       <div className={classnames(styles['ligin-page-form-box'])}>
-        <Title className="text-center truncate" style={{ marginBottom: 15 }}>
-          {config.name}
-        </Title>
+        <Title className="text-center truncate">{config.name}</Title>
         <Outlet></Outlet>
         <FormLinks></FormLinks>
       </div>

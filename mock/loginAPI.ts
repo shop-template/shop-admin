@@ -21,6 +21,13 @@ const userList = [
 
 // const phoneList: string[] = []
 const smsList: number[] = [];
+const getSms = (phone: string) => {
+  let code = String(Math.round(Math.random() * 1000000));
+  if (code.length < 6) {
+    code = `${code}${phone.slice(0, 6 - code.length)}`;
+  }
+  return Number(code);
+};
 
 export default {
   'post /api/login': (req: any, res: any) => {
@@ -65,7 +72,7 @@ export default {
   'post /api/sendSmsLogin': (req: any, res: any) => {
     const curUser = userList.find((x) => x.account === req.body.phone);
     if (curUser) {
-      const code = Math.round(Math.random() * 1000000);
+      const code = getSms(req.body.phone);
       smsList.push(code);
       res.json({
         success: true,
