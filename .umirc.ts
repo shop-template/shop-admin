@@ -8,6 +8,9 @@ export default defineConfig({
     import: true,
     // less or css, default less
     style: 'less',
+    configProvider: {
+      locale: 'zh_CN',
+    },
   },
   alias: {
     '@': require('path').resolve(__dirname, './src'),

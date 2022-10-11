@@ -23,6 +23,8 @@ export const request: RequestConfig = {
           '/api/login',
           '/api/sendSmsLogin',
           '/api/phoneLogin',
+          '/api/sendSms',
+          '/api/phoneRegister',
         ];
         if (!noTokenApis.includes(url)) {
           const token = Cookies.get(config.token);

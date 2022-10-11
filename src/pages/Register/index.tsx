@@ -1,12 +1,16 @@
 import { useState } from 'react';
-import { Button, Form, Input, Spin, message } from 'antd';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { Button, Form, Input, Spin, message, Modal } from 'antd';
+import {
+  LockOutlined,
+  UserOutlined,
+  ExclamationCircleOutlined,
+} from '@ant-design/icons';
 import { useModel, history } from 'umi';
 import { useRequest, useCountDown, useTitle } from 'ahooks';
 import formPattern from '@/config/formPattern';
 import {
-  phoneLoginRequest,
-  sendSmsLoginRequest,
+  phoneRegisterRequest,
+  sendSmsRequest,
 } from '@/services/loginController';
 import config from '@/config';
 import Cookies from 'js-cookie';
@@ -30,7 +34,7 @@ const RegisterPage: React.FC = () => {
 
   // 发送验证码
   const { loading: sendSmsLoading, run: sendSmsRun } = useRequest(
-    sendSmsLoginRequest,
+    sendSmsRequest,
     {
       manual: true,
       onSuccess: (result) => {
@@ -53,17 +57,21 @@ const RegisterPage: React.FC = () => {
       });
   };
 
-  // 短信登录
-  const { loading: loginLoading, run } = useRequest(phoneLoginRequest, {
+  // 短信注册
+  const { loading: loginLoading, run } = useRequest(phoneRegisterRequest, {
     manual: true,
     onSuccess: async (result) => {
       if (result.success) {
-        message.success('登录成功');
         Cookies.set(config.token, result.data?.token as string, { expires: 7 });
         setInitialState(result.data);
-        setTimeout(() => {
-          history.push('/');
-        }, 100);
+        Modal.info({
+          title: '提示',
+          icon: <ExclamationCircleOutlined />,
+          content: '注册成功，请完善个人信息',
+          onOk() {
+            history.push('/user');
+          },
+        });
       }
     },
   });

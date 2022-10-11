@@ -35,11 +35,11 @@ declare namespace API {
     data?: ResultUserInfo;
   }
 
-  interface SendSmsLoginBody {
+  interface SendSmsBody {
     phone: string;
   }
 
-  interface SendSmsLoginResultInfo {
+  interface SendSmsResultInfo {
     success?: boolean;
     errorMessage?: string;
     errorCode?: number;
@@ -54,6 +54,18 @@ declare namespace API {
   }
 
   interface PhoneLoginResultInfo {
+    success?: boolean;
+    errorMessage?: string;
+    errorCode?: number;
+    data?: ResultUserInfo;
+  }
+
+  interface PhoneRegisterBody {
+    phone: string;
+    code: string;
+  }
+
+  interface PhoneRegisterResultInfo {
     success?: boolean;
     errorMessage?: string;
     errorCode?: number;

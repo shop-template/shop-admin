@@ -7,8 +7,8 @@ export async function loginRequest(body: API.AccountLoginForm) {
   });
 }
 
-export async function sendSmsLoginRequest(body: API.SendSmsLoginBody) {
-  return request<API.SendSmsLoginResultInfo>('/api/sendSmsLogin', {
+export async function sendSmsLoginRequest(body: API.SendSmsBody) {
+  return request<API.SendSmsResultInfo>('/api/sendSmsLogin', {
     method: 'POST',
     data: body,
   });
@@ -16,6 +16,20 @@ export async function sendSmsLoginRequest(body: API.SendSmsLoginBody) {
 
 export async function phoneLoginRequest(body: API.PhoneLoginBody) {
   return request<API.PhoneLoginResultInfo>('/api/phoneLogin', {
+    method: 'POST',
+    data: body,
+  });
+}
+
+export async function sendSmsRequest(body: API.SendSmsBody) {
+  return request<API.SendSmsResultInfo>('/api/sendSms', {
+    method: 'POST',
+    data: body,
+  });
+}
+
+export async function phoneRegisterRequest(body: API.PhoneRegisterBody) {
+  return request<API.PhoneRegisterResultInfo>('/api/phoneRegister', {
     method: 'POST',
     data: body,
   });
