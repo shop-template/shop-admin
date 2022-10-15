@@ -1,8 +1,8 @@
 const userList = [
   {
     id: 1,
-    name: 'admin',
-    label: '樊小书生',
+    name: '樊小书生',
+    label: 'admin',
     access: 'admin',
     token: 'tokenadmin',
     account: '11122223333',
@@ -10,8 +10,8 @@ const userList = [
   },
   {
     id: 2,
-    name: 'zhangsan',
-    label: '张三',
+    name: '张三',
+    label: 'zhangsan',
     access: 'user',
     token: 'tokenzhangsan',
     account: '11144445555',
@@ -42,7 +42,7 @@ export default {
   'post /api/login': (req: any, res: any) => {
     const { username } = req.body;
     const curUser = userList.find(
-      (x) => x.name === username || x.account === username,
+      (x) => x.label === username || x.account === username,
     );
     if (curUser) {
       setTimeout(() => {
