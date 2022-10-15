@@ -62,6 +62,8 @@ declare namespace API {
 
   interface PhoneRegisterBody {
     phone: string;
+    password: string;
+    cPassword: string;
     code: string;
   }
 

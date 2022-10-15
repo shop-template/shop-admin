@@ -4,6 +4,7 @@ import {
   LockOutlined,
   UserOutlined,
   ExclamationCircleOutlined,
+  SafetyOutlined,
 } from '@ant-design/icons';
 import { useModel, history } from 'umi';
 import { useRequest, useCountDown, useTitle } from 'ahooks';
@@ -68,8 +69,9 @@ const RegisterPage: React.FC = () => {
           title: '提示',
           icon: <ExclamationCircleOutlined />,
           content: '注册成功，请完善个人信息',
+          okText: '确定',
           onOk() {
-            history.push('/user');
+            history.push('/user/info');
           },
         });
       }
@@ -128,7 +130,43 @@ const RegisterPage: React.FC = () => {
             onSearch={onSmsSearch}
           />
         </Form.Item>
-
+        <Form.Item
+          name="password"
+          rules={[
+            { required: true, message: '请输入密码！' },
+            {
+              pattern: formPattern.passwordPattern,
+              message: '密码为6~20位的大小写祖母、数字！',
+            },
+          ]}
+        >
+          <Input.Password
+            prefix={<SafetyOutlined />}
+            allowClear
+            placeholder="请输入密码"
+          />
+        </Form.Item>
+        <Form.Item
+          name="cPassword"
+          dependencies={['password']}
+          rules={[
+            { required: true, message: '请再次输入密码！' },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue('password') === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(new Error('请确保两次输入代码一致！'));
+              },
+            }),
+          ]}
+        >
+          <Input.Password
+            prefix={<SafetyOutlined />}
+            allowClear
+            placeholder="请再次输入密码"
+          />
+        </Form.Item>
         <Form.Item className="mb-16">
           <Button type="primary" htmlType="submit" block loading={loginLoading}>
             登录

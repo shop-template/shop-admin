@@ -39,7 +39,7 @@ const LoginForm: React.FC = () => {
           rules={[
             { required: true, message: '请输入用户名！' },
             {
-              pattern: formPattern.namePattern,
+              pattern: formPattern.usernamePattern,
               message: '用户名包含大小写字母、数字！',
             },
           ]}

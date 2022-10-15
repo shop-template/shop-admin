@@ -40,6 +40,7 @@ export default defineConfig({
     {
       name: '首页',
       path: '/home',
+      icon: 'HomeOutlined',
       component: './Home',
     },
 
@@ -70,10 +71,23 @@ export default defineConfig({
     },
 
     {
-      name: '用户管理',
+      name: '用户中心',
       path: '/user',
-      component: './User',
-      access: 'isAdmin',
+      icon: 'UserOutlined',
+      routes: [
+        { path: '/user', redirect: '/user/info' },
+        {
+          name: '个人中心',
+          path: '/user/info',
+          component: './User/info.tsx',
+        },
+        {
+          name: '用户管理',
+          path: '/user/users',
+          component: './User/users.tsx',
+          access: 'isAdmin',
+        },
+      ],
     },
 
     {
